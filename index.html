@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rencana Belajar Otomatis - Sukses UTBK/TKA</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .tab-active { border-color: #2563eb; color: #2563eb; }
+        .animate-pop { animation: pop 0.3s ease-out; }
+        @keyframes pop {
+            0% { transform: scale(0.95); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-md shadow-blue-200">R</div>
+                <div>
+                    <h1 class="text-lg font-bold text-slate-900 tracking-tight leading-none">Rencana Belajar Otomatis</h1>
+                    <span class="text-xs text-slate-500">Navigator Akselerasi UTBK & TKA</span>
+                </div>
+            </div>
+            <div id="header-gamification" class="hidden flex items-center gap-4">
+                <div class="flex items-center gap-1.5 bg-orange-50 border border-orange-100 px-3 py-1.5 rounded-full text-orange-600 font-semibold text-sm">
+                    <span>🔥</span> <span id="streak-count-val">0</span> Hari Streak
+                </div>
+                <div id="badge-mini-display" class="flex gap-1 text-lg"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        
+        <section id="wizard-container" class="max-w-2xl mx-auto bg-white rounded-2xl border border-slate-200 shadow-xl shadow-slate-100 overflow-hidden hidden">
+            <div class="bg-slate-50 border-b border-slate-100 px-6 py-4">
+                <div class="flex justify-between items-center text-xs font-semibold text-slate-400 mb-2">
+                    <span id="wizard-step-title">LANGKAH 1 DARI 5</span>
+                    <span id="wizard-step-percent">20%</span>
+                </div>
+                <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                    <div id="wizard-progress-bar" class="bg-blue-600 h-full transition-all duration-300" style="width: 20%"></div>
+                </div>
+            </div>
+
+            <form id="wizard-form" class="p-6 md:p-8 space-y-6" onsubmit="event.preventDefault();">
+                
+                <div id="step-1" class="wizard-step space-y-4">
+                    <div class="text-center md:text-left">
+                        <h2 class="text-xl font-bold text-slate-900">Kapan Pertempuran Dimulai?</h2>
+                        <p class="text-sm text-slate-500">Pilih tanggal ujian UTBK/TKA Anda untuk menghitung sisa waktu efektif.</p>
+                    </div>
+                    <div class="pt-2">
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Tanggal Ujian</label>
+                        <input type="date" id="input-exam-date" required class="w-full border border-slate-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition shadow-sm">
+                    </div>
+                    <div id="exam-countdown-preview" class="hidden p-4 bg-blue-50 border border-blue-100 rounded-xl text-blue-700 text-sm font-medium text-center">
+                        ⏳ Menghitung sisa waktu harian...
+                    </div>
+                </div>
+
+                <div id="step-2" class="wizard-step hidden space-y-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-900">Pilih Jalur Perjuangan</h2>
+                        <p class="text-sm text-slate-500">Mata pelajaran bawaan akan otomatis disesuaikan berdasarkan rumpun pilihan.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                        <label class="border-2 border-slate-200 rounded-xl p-4 flex flex-col justify-between cursor-pointer hover:border-blue-500 transition relative bg-white group shadow-sm">
+                            <input type="radio" name="exam-group" value="saintek" checked class="absolute top-4 right-4 text-blue-600 focus:ring-blue-500">
+                            <div>
+                                <span class="text-2xl mb-2 block">🧪</span>
+                                <h3 class="font-bold text-slate-900 group-hover:text-blue-600 transition">UTBK Saintek</h3>
+                                <p class="text-xs text-slate-500 mt-1">Matematika, Fisika, Kimia, Biologi + TPS wajib.</p>
+                            </div>
+                        </label>
+                        <label class="border-2 border-slate-200 rounded-xl p-4 flex flex-col justify-between cursor-pointer hover:border-blue-500 transition relative bg-white group shadow-sm">
+                            <input type="radio" name="exam-group" value="soshum" class="absolute top-4 right-4 text-blue-600 focus:ring-blue-500">
+                            <div>
+                                <span class="text-2xl mb-2 block">⚖️</span>
+                                <h3 class="font-bold text-slate-900 group-hover:text-blue-600 transition">UTBK Soshum</h3>
+                                <p class="text-xs text-slate-500 mt-1">Ekonomi, Sejarah, Geografi, Sosiologi + TPS wajib.</p>
+                            </div>
+                        </label>
+                        <label class="border-2 border-slate-200 rounded-xl p-4 flex flex-col justify-between cursor-pointer hover:border-blue-500 transition relative bg-white group shadow-sm">
+                            <input type="radio" name="exam-group" value="campuran" class="absolute top-4 right-4 text-blue-600 focus:ring-blue-500">
+                            <div>
+                                <span class="text-2xl mb-2 block">🔮</span>
+                                <h3 class="font-bold text-slate-900 group-hover:text-blue-600 transition">Campuran IPC</h3>
+                                <p class="text-xs text-slate-500 mt-1">Gabungan seluruh materi Saintek & Soshum secara proporsional.</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="step-3" class="wizard-step hidden space-y-5">
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-900">Alokasikan Energi Anda</h2>
+                        <p class="text-sm text-slate-500">Atur komitmen waktu harian yang realistis sesuai ritme mingguan Anda.</p>
+                    </div>
+                    <div class="space-y-4 pt-2">
+                        <div>
+                            <div class="flex justify-between text-sm font-medium text-slate-700 mb-1">
+                                <label>Hari Kerja (Senin - Jumat)</label>
+                                <span id="val-weekday" class="text-blue-600 font-bold">2 Jam / hari</span>
+                            </div>
+                            <input type="range" id="input-time-weekday" min="1" max="8" value="2" class="w-full accent-blue-600">
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm font-medium text-slate-700 mb-1">
+                                <label>Akhir Pekan (Sabtu - Minggu)</label>
+                                <span id="val-weekend" class="text-blue-600 font-bold">4 Jam / hari</span>
+                            </div>
+                            <input type="range" id="input-time-weekend" min="1" max="12" value="4" class="w-full accent-blue-600">
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                            <label class="flex items-center gap-3 cursor-pointer text-sm font-medium text-slate-700">
+                                <input type="checkbox" id="input-rest-day" checked class="w-4 h-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500">
+                                <span>Tetapkan <strong>Hari Minggu</strong> sebagai Hari Libur Belajar 🧘‍♂️</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="step-4" class="wizard-step hidden space-y-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-900">Ukur Peta Kekuatan</h2>
+                        <p class="text-sm text-slate-500">Materi yang dinilai "Kurang" otomatis akan mendapatkan alokasi waktu ekstra.</p>
+                    </div>
+                    <div id="mastery-sliders-container" class="space-y-4 pt-2 max-h-64 overflow-y-auto pr-2">
+                        </div>
+                </div>
+
+                <div id="step-5" class="wizard-step hidden space-y-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-900">Visualisasikan Garis Finish</h2>
+                        <p class="text-sm text-slate-500">Satu langkah terakhir sebelum mesin pintar menyusun timeline personalisasi Anda.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Target Nilai UTBK</label>
+                            <input type="number" id="input-target-score" value="650" min="300" max="1000" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Kampus/Jurusan Impian <span class="text-slate-400">(Opsional)</span></label>
+                            <input type="text" id="input-dream-major" placeholder="Contoh: STEI ITB / FK UI" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                    </div>
+                    <div class="pt-4">
+                        <button type="button" id="btn-generate-plan" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 px-6 rounded-xl transition shadow-lg shadow-emerald-100 flex items-center justify-center gap-2 text-lg cursor-pointer">
+                            🚀 Buat Rencana Sekarang
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between border-t border-slate-100 pt-5 mt-4">
+                    <button type="button" id="btn-wizard-prev" class="px-5 py-2.5 border border-slate-300 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 transition cursor-pointer visibility-hidden">
+                        Kembali
+                    </button>
+                    <button type="button" id="btn-wizard-next" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold transition tracking-wide cursor-pointer shadow-sm shadow-blue-100">
+                        Lanjut
+                    </button>
+                </div>
+            </form>
+        </section>
+
+
+        <section id="dashboard-container" class="space-y-8 hidden animate-pop">
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex items-center gap-4">
+                    <div class="w-12 h-12 bg-red-50 text-red-600 rounded-xl flex items-center justify-center text-xl font-bold">⏳</div>
+                    <div>
+                        <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Mundur Ujian</span>
+                        <h3 id="dash-stat-days" class="text-2xl font-extrabold text-slate-900 leading-tight">0 Hari</h3>
+                    </div>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex items-center gap-4">
+                    <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-xl font-bold">⏱️</div>
+                    <div>
+                        <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Alokasi Waktu</span>
+                        <h3 id="dash-stat-hours" class="text-2xl font-extrabold text-slate-900 leading-tight">0 Jam</h3>
+                    </div>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex items-center gap-4 md:col-span-1">
+                    <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center text-xl font-bold">🎯</div>
+                    <div>
+                        <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Fase Aktif</span>
+                        <h3 id="dash-stat-phase" class="text-base font-bold text-slate-900 leading-tight mt-0.5">Fase 1</h3>
+                    </div>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex items-center justify-between">
+                    <div>
+                        <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Progress Global</span>
+                        <h3 id="dash-stat-progress-txt" class="text-2xl font-extrabold text-slate-900 leading-tight">0%</h3>
+                    </div>
+                    <div class="relative w-14 h-14">
+                        <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                            <path class="text-slate-100" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path id="dash-stat-progress-ring" class="text-emerald-500 transition-all duration-500" stroke-width="3.5" stroke-dasharray="0, 100" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div id="alert-backlog-container" class="hidden bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3 text-amber-800 text-sm">
+                <span class="text-lg">⚠️</span>
+                <div>
+                    <strong class="font-semibold">Penyesuaian Jadwal Otomatis:</strong> 
+                    <span id="alert-backlog-text">Ada beberapa sesi kemarin yang terlewat. Sistem telah mendistribusikannya ulang ke sisa minggu efektif menggunakan alokasi cadangan (buffer).</span>
+                </div>
+            </div>
+
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden border-t-4 border-t-blue-600">
+                <div class="px-6 py-4 bg-slate-50/50 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-900">⚡ Fokus Agenda Hari Ini</h2>
+                        <p id="dash-today-date-str" class="text-xs text-slate-500">Rabu, 8 Juli 2026</p>
+                    </div>
+                    <div id="dash-today-completion-badge" class="hidden text-xs bg-emerald-100 text-emerald-800 font-bold px-2.5 py-1 rounded-full">
+                        ✨ ALL COMPLETED
+                    </div>
+                </div>
+                <div id="dash-today-sessions-list" class="divide-y divide-slate-100">
+                    </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm lg:col-span-2 space-y-4">
+                    <div class="border-b border-slate-200 flex justify-between items-center">
+                        <h2 class="text-base font-bold text-slate-900 pb-2">📅 Navigasi Periode Minggu Ini</h2>
+                    </div>
+                    <div id="dash-weekly-list" class="space-y-3 max-h-[380px] overflow-y-auto pr-1">
+                        </div>
+                </div>
+
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-4">
+                    <h2 class="text-base font-bold text-slate-900">📊 Distribusi Target & Progress Mapel</h2>
+                    <p class="text-xs text-slate-400">Rasio jam belajar selesai (warna gelap) vs total target alokasi (abu-abu).</p>
+                    <div id="dash-chart-container" class="space-y-4 pt-2">
+                        </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-100 rounded-2xl p-4 flex flex-wrap gap-4 items-center justify-between border border-slate-200">
+                <div class="flex flex-wrap gap-2">
+                    <button type="button" id="btn-edit-data" class="bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 font-medium py-2 px-4 rounded-xl text-xs transition cursor-pointer">
+                        ✏️ Ubah Parameter Data / Edit Konfigurasi
+                    </button>
+                    <button type="button" id="btn-export-schedule" class="bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 font-semibold py-2 px-4 rounded-xl text-xs transition cursor-pointer">
+                        💾 Download Ringkasan Jadwal (.txt)
+                    </button>
+                </div>
+                <div>
+                    <button type="button" id="btn-reset-all" class="text-red-600 hover:text-red-700 font-medium text-xs py-2 px-3 rounded-lg hover:bg-red-50 transition cursor-pointer">
+                        ⚠️ Reset Semua Data
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script>
+        // ========================================================
+        // I. DATA DICTIONARIES & SUB-TOPICS REPOSITORY
+        // ========================================================
+        const SUBJECTS_BANK = {
+            tps: ["Penalaran Kuantitatif", "Pemahaman Bacaan", "Penalaran Umum", "Pengetahuan Umum", "Bahasa Inggris Literasi", "Logika Analitis", "Grafik & Tabel Data", "Kecukupan Data"],
+            saintek: {
+                "Matematika": ["Aljabar & Logaritma", "Persamaan Kuadrat", "Trigonometri Analitis", "Kalkulus (Limit/Turunan)", "Integral Sederhana", "Geometri Ruang", "Statistika & Peluang", "Matriks & Vektor", "Barisan & Deret"],
+                "Fisika": ["Mekanika & Kinematika", "Dinamika Newton", "Termodinamika", "Gelombang & Bunyi", "Optik Geometri", "Listrik Statis & Dinamis", "Magnet & Induksi", "Fisika Modern", "Fluida Statis & Dinamis"],
+                "Kimia": ["Stokiometri", "Struktur Atom & Tabel Periodik", "Ikatan Kimia", "Termokimia", "Laju Reaksi", "Kesetimbangan Kimia", "Sifat Koligatif Larutan", "Asam & Basa", "Redoks & Elektrokimia", "Kimia Organik"],
+                "Biologi": ["Biologi Sel & Molekuler", "Metabolisme & Enzim", "Genetika & Pewarisan Sifat", "Evolusi Makhluk Hidup", "Struktur & Fungsi Tumbuhan", "Fisiologi Manusia", "Ekologi & Lingkungan", "Klasifikasi Makhluk Hidup", "Bioteknologi"]
+            },
+            soshum: {
+                "Ekonom": ["Pengantar Ilmu Ekonomi", "Mekanisme Pasar (Permintaan/Penawaran)", "Perilaku Konsumen & Produsen", "Konsep Pendapatan Nasional", "Kebijakan Moneter & Fiskal", "Akuntansi Dasar", "Badan Usaha & Ketenagakerjaan", "Perdagangan Internasional"],
+                "Sejarah": ["Metodologi Sejarah", "Prasejarah Indonesia", "Kerajaan Hindu-Budha", "Kerajaan Islam Nusantara", "Kolonialisme & Imperialisme", "Pergerakan Nasional", "Revolusi Kemerdekaan", "Orde Lama & Orde Baru", "Sejarah Dunia Kontemporer"],
+                "Geografi": ["Konsep Dasar Geografi", "Peta & Penginderaan Jauh", "Litosfer & Pedosfer", "Atmosfer & Klimatologi", "Hidrosfer", "Biosfer & Antroposfer", "Sumber Daya Alam & Lingkungan", "Geografi Regional & Tata Ruang"],
+                "Sosiologi": ["Interaksi Sosial", "Sosialisasi & Pembentukan Kepribadian", "Perilaku Menyimpang", "Struktur & Stratifikasi Sosial", "Konflik & Integrasi Sosial", "Perubahan Sosial Budaya", "Kelompok Sosial", "Metode Penelitian Sosial"]
+            }
+        };
+
+        const BASE_WEIGHTS = {
+            saintek: { "Matematika": 0.30, "Fisika": 0.30, "Kimia": 0.25, "Biologi": 0.15 },
+            soshum: { "Ekonomi": 0.25, "Sejarah": 0.25, "Geografi": 0.25, "Sosiologi": 0.25 },
+            campuran: { "Matematika": 0.15, "Fisika": 0.15, "Kimia": 0.125, "Biologi": 0.075, "Ekonomi": 0.125, "Sejarah": 0.125, "Geografi": 0.125, "Sosiologi": 0.125 }
+        };
+
+        const MASTERY_FACTORS = { "kurang": 1.5, "cukup": 1.0, "bagus": 0.7 };
+
+        // Global State
+        let currentStep = 1;
+        let userData = null;
+        let studyPlan = null; // Stored schedule data structure
+
+        // ========================================================
+        // II. DOM ELEMENTS SELECTOR
+        // ========================================================
+        const wizardContainer = document.getElementById('wizard-container');
+        const dashboardContainer = document.getElementById('dashboard-container');
+        const wizardForm = document.getElementById('wizard-form');
+        const btnPrev = document.getElementById('btn-wizard-prev');
+        const btnNext = document.getElementById('btn-wizard-next');
+        const inputExamDate = document.getElementById('input-exam-date');
+        const examCountdownPreview = document.getElementById('exam-countdown-preview');
+        const masterySlidersContainer = document.getElementById('mastery-sliders-container');
+        
+        // ========================================================
+        // III. WIZARD STEP NAVIGATION ENGINE
+        // ========================================================
+        function initApp() {
+            // Load state from local storage if exists
+            const savedData = localStorage.getItem('utbk_wizard_data');
+            const savedPlan = localStorage.getItem('utbk_study_plan');
+            
+            // Set minimal date picker to today
+            const todayStr = new Date().toISOString().split('T')[0];
+            inputExamDate.min = todayStr;
+
+            if (savedData && savedPlan) {
+                userData = JSON.parse(savedData);
+                studyPlan = JSON.parse(savedPlan);
+                processBacklogAdjustments(); // Check for missed dates
+                renderDashboard();
+                wizardContainer.classList.add('hidden');
+                dashboardContainer.classList.remove('hidden');
+                document.getElementById('header-gamification').classList.remove('hidden');
+            } else {
+                currentStep = 1;
+                showStep(currentStep);
+                wizardContainer.classList.remove('hidden');
+                dashboardContainer.classList.add('hidden');
+                document.getElementById('header-gamification').classList.add('hidden');
+            }
+        }
+
+        function showStep(step) {
+            document.querySelectorAll('.wizard-step').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`step-${step}`).classList.remove('hidden');
+            
+            // Update Top Progress Bar Metrics
+            const percent = step * 20;
+            document.getElementById('wizard-step-title').innerText = `LANGKAH ${step} DARI 5`;
+            document.getElementById('wizard-step-percent').innerText = `${percent}%`;
+            document.getElementById('wizard-progress-bar').style.width = `${percent}%`;
+
+            // Adjust Footer Buttons
+            if (step === 1) {
+                btnPrev.style.visibility = 'hidden';
+            } else {
+                btnPrev.style.visibility = 'visible';
+            }
+
+            if (step === 5) {
+                btnNext.classList.add('hidden');
+            } else {
+                btnNext.classList.remove('hidden');
+            }
+
+            if (step === 4) {
+                buildMasteryInterface();
+            }
+        }
+
+        // Live Change Event Listeners for Step 3 Realtime Text
+        document.getElementById('input-time-weekday').addEventListener('input', (e) => {
+            document.getElementById('val-weekday').innerText = `${e.target.value} Jam / hari`;
+        });
+        document.getElementById('input-time-weekend').addEventListener('input', (e) => {
+            document.getElementById('val-weekend').innerText = `${e.target.value} Jam / hari`;
+        });
+        inputExamDate.addEventListener('change', () => {
+            const diffDays = Math.ceil((new Date(inputExamDate.value) - new Date()) / (1000 * 60 * 60 * 24));
+            if(diffDays >= 0) {
+                examCountdownPreview.innerText = `🎯 Bagus! Ujian dilaksanakan ${diffDays} hari (${Math.round(diffDays/7)} minggu) lagi dari sekarang.`;
+                examCountdownPreview.classList.remove('hidden');
+            }
+        });
+
+        btnNext.addEventListener('click', () => {
+            if (currentStep === 1 && !inputExamDate.value) {
+                alert('Silakan tentukan tanggal target ujian terlebih dahulu.');
+                return;
+            }
+            if (currentStep < 5) {
+                currentStep++;
+                showStep(currentStep);
+            }
+        });
+
+        btnPrev.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        });
+
+        function buildMasteryInterface() {
+            const chosenGroup = document.querySelector('input[name="exam-group"]:checked').value;
+            masterySlidersContainer.innerHTML = '';
+            
+            let mapels = [];
+            if (chosenGroup === 'saintek') mapels = Object.keys(SUBJECTS_BANK.saintek);
+            else if (chosenGroup === 'soshum') mapels = Object.keys(SUBJECTS_BANK.soshum);
+            else mapels = [...Object.keys(SUBJECTS_BANK.saintek), ...Object.keys(SUBJECTS_BANK.soshum)];
+
+            // Push TPS as explicitly mandatory separate slider block
+            mapels.unshift("TPS (Tes Potensi Skolastik)");
+
+            mapels.forEach((mapel, index) => {
+                const mapelCleanId = `mastery-select-${index}`;
+                const div = document.createElement('div');
+                div.className = "flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-slate-50 border border-slate-200 rounded-xl gap-2";
+                
+                // Keep preset state if editing data
+                let defaultVal = "cukup";
+                if(userData && userData.masteryLevels && userData.masteryLevels[mapel]) {
+                    defaultVal = userData.masteryLevels[mapel];
+                }
+
+                div.innerHTML = `
+                    <span class="text-sm font-semibold text-slate-800">${mapel}</span>
+                    <select id="${mapelCleanId}" data-mapel="${mapel}" class="bg-white border border-slate-300 text-sm rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="kurang" ${defaultVal === 'kurang' ? 'selected':''}>Kurang (Butuh Tambahan Waktu)</option>
+                        <option value="cukup" ${defaultVal === 'cukup' ? 'selected':''}>Cukup (Proporsional Normal)</option>
+                        <option value="bagus" ${defaultVal === 'bagus' ? 'selected':''}>Bagus (Pendalaman Ringan)</option>
+                    </select>
+                `;
+                masterySlidersContainer.appendChild(div);
+            });
+        }
+
+        // ========================================================
+        // IV. SCHEDULING ALGORITHM ENGINE (THE LOGICAL CORE)
+        // ========================================================
+        document.getElementById('btn-generate-plan').addEventListener('click', () => {
+            const targetScore = document.getElementById('input-target-score').value;
+            if(!targetScore) { alert('Harap isi target nilai.'); return; }
+
+            // Extract Mastery Values
+            const masteryLevels = {};
+            masterySlidersContainer.querySelectorAll('select').forEach(sel => {
+                masteryLevels[sel.getAttribute('data-mapel')] = sel.value;
+            });
+
+            // Assemble Onboarding User Config Metadata
+            userData = {
+                examDate: inputExamDate.value,
+                examGroup: document.querySelector('input[name="exam-group"]:checked').value,
+                hoursWeekday: parseInt(document.getElementById('input-time-weekday').value),
+                hoursWeekend: parseInt(document.getElementById('input-time-weekend').value),
+                excludeSunday: document.getElementById('input-rest-day').checked,
+                masteryLevels: masteryLevels,
+                targetScore: targetScore,
+                dreamMajor: document.getElementById('input-dream-major').value || "Kampus Impian"
+            };
+
+            // Invoke Schedulers Core Calculator Engine
+            studyPlan = generateCoreTimelineStructure(userData);
+            
+            // Persist Data to Browser Storage
+            localStorage.setItem('utbk_wizard_data', JSON.stringify(userData));
+            localStorage.setItem('utbk_study_plan', JSON.stringify(studyPlan));
+            
+            // Refresh Visual Layout UI state
+            initApp();
+        });
+
+        function generateCoreTimelineStructure(config) {
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            const examDay = new Date(config.examDate);
+            examDay.setHours(0,0,0,0);
+
+            // a) Hitung total hari efektif
+            const daySequence = [];
+            let tempDay = new Date(today);
+            
+            while (tempDay <= examDay) {
+                const dayOfWeek = tempDay.getDay(); // 0 = Minggu
+                let isRestDay = false;
+                if (config.excludeSunday && dayOfWeek === 0) {
+                    isRestDay = true;
+                }
+                daySequence.push({
+                    dateStr: tempDay.toISOString().split('T')[0],
+                    dayOfWeek: dayOfWeek,
+                    isRestDay: isRestDay,
+                    sessions: []
+                });
+                tempDay.setDate(tempDay.getDate() + 1);
+            }
+
+            const totalDaysCount = daySequence.filter(d => !d.isRestDay).length;
+            if(totalDaysCount <= 0) {
+                alert("Rentang waktu ujian terlalu pendek atau habis! Silakan set ulang tanggal ujian ke masa depan.");
+                return [];
+            }
+
+            // b) Hitung total jam belajar efektif & sisa 12% buffer cadangan
+            let totalAvailableHours = 0;
+            daySequence.forEach(d => {
+                if(!d.isRestDay) {
+                    if (d.dayOfWeek === 0 || d.dayOfWeek === 6) {
+                        totalAvailableHours += config.hoursWeekend;
+                    } else {
+                        totalAvailableHours += config.hoursWeekday;
+                    }
+                }
+            });
+
+            const bufferHourPool = totalAvailableHours * 0.12;
+            const coreAllocatedHours = totalAvailableHours - bufferHourPool;
+
+            // c) Distribusi Bobot per Mapel berdasarkan Rumpun Ujian & Faktor Penguasaan
+            // Ambil basic weights untuk Mapel Akademik (Non TPS)
+            const chosenGroup = config.examGroup;
+            let groupWeights = Object.assign({}, BASE_WEIGHTS[chosenGroup]);
+            
+            // Skema Pemisahan Wajib TPS: Ambil porsi 20% flat dari coreAllocatedHours
+            const totalTpsHours = coreAllocatedHours * 0.20;
+            const remainingAcademicHours = coreAllocatedHours - totalTpsHours;
+
+            // Kalkulasi koefisien normalisasi penyesuaian untuk sub-mapel akademik
+            let totalNormalizedFactor = 0;
+            const rawAdjustedWeights = {};
+            
+            for (let mapel in groupWeights) {
+                const level = config.masteryLevels[mapel] || "cukup";
+                const multiplier = MASTERY_FACTORS[level];
+                rawAdjustedWeights[mapel] = groupWeights[mapel] * multiplier;
+                totalNormalizedFactor += rawAdjustedWeights[mapel];
+            }
+
+            // Hitung jam definitif per mapel akademik
+            const finalMapelHourTarget = {};
+            for (let mapel in groupWeights) {
+                finalMapelHourTarget[mapel] = (rawAdjustedWeights[mapel] / totalNormalizedFactor) * remainingAcademicHours;
+            }
+            // Sisipkan TPS ke mapel targets map
+            finalMapelHourTarget["TPS (Tes Potensi Skolastik)"] = totalTpsHours;
+
+            // d) Pembagian Timeline Fase otomatis (50%, 35%, 15%)
+            const totalDays = daySequence.length;
+            const phase1Boundary = Math.floor(totalDays * 0.50);
+            const phase2Boundary = Math.floor(totalDays * 0.85);
+
+            // e & f) Generate Sesi Harian Realistis & Mapping Sub-materi Acak
+            let mapelHourTrackers = {};
+            Object.keys(finalMapelHourTarget).forEach(k => mapelHourTrackers[k] = 0);
+
+            daySequence.forEach((day, index) => {
+                if (day.isRestDay) return;
+
+                // Tentukan Fase Aktif
+                let phaseLabel = "Fase 1: Pemahaman Konsep";
+                if (index >= phase1Boundary && index < phase2Boundary) phaseLabel = "Fase 2: Latihan Soal";
+                else if (index >= phase2Boundary) phaseLabel = "Fase 3: Simulasi & Perbaikan";
+                day.phaseLabel = phaseLabel;
+
+                // Hitung kuota durasi belajar hari ini
+                let availableHoursToday = (day.dayOfWeek === 0 || day.dayOfWeek === 6) ? config.hoursWeekend : config.hoursWeekday;
+                
+                // Atur maksimal 3 sesi harian, durasi per sesi ~1 jam efektif (50 mnt belajar + jeda)
+                let sessionCount = Math.min(3, Math.ceil(availableHoursToday));
+                if(sessionCount === 0) sessionCount = 1;
+
+                // Algoritma greedy mendistribusikan sisa target jam mapel terbesar yang belum terpenuhi
+                for (let s = 0; s < sessionCount; s++) {
+                    // Cari mapel mana yang alokasinya saat ini paling tertinggal jauh dari target rasionya
+                    let chosenMapel = "TPS (Tes Potensi Skolastik)";
+                    let maxDeficit = -99999;
+
+                    for (let m in finalMapelHourTarget) {
+                        let deficit = finalMapelHourTarget[m] - mapelHourTrackers[m];
+                        if (deficit > maxDeficit) {
+                            maxDeficit = deficit;
+                            chosenMapel = m;
+                        }
+                    }
+
+                    // Ambil sub topik generik secara rotasi/acak teratur
+                    let subTopicList = SUBJECTS_BANK.tps;
+                    if (chosenMapel !== "TPS (Tes Potensi Skolastik)") {
+                        // Cek apakah saintek atau soshum
+                        subTopicList = SUBJECTS_BANK.saintek[chosenMapel] || SUBJECTS_BANK.soshum[chosenMapel] || SUBJECTS_BANK.tps;
+                    }
+                    
+                    let topicIndex = Math.floor(mapelHourTrackers[chosenMapel]) % subTopicList.length;
+                    let subTopic = subTopicList[topicIndex] || subTopicList[0];
+
+                    // Tentukan Jam Sesi (Simulasi Jam Mulai Sore/Malam untuk Fleksibilitas Siswa Sekolah)
+                    let startTime = 16 + s; 
+                    let endTime = startTime + 1;
+
+                    day.sessions.push({
+                        id: `session-${index}-${s}`,
+                        timeStr: `${startTime}:00 - ${endTime}:00`,
+                        subject: chosenMapel,
+                        topic: subTopic,
+                        done: false
+                    });
+
+                    // Akumulasikan jam ke tracker
+                    mapelHourTrackers[chosenMapel] += 1; 
+                }
+            });
+
+            return daySequence;
+        }
+
+        // ========================================================
+        // V. AUTO-ADJUSTMENT LOGIC ENGINE (BACKLOG HANDLING)
+        // ========================================================
+        function processBacklogAdjustments() {
+            if (!studyPlan || studyPlan.length === 0) return;
+            
+            const todayStr = new Date().toISOString().split('T')[0];
+            let missedSessionsCount = 0;
+
+            // Cari semua sesi pada hari-hari kemarin yang belum dicentang (done === false)
+            studyPlan.forEach(day => {
+                if (day.dateStr < todayStr && !day.isRestDay) {
+                    day.sessions.forEach(sess => {
+                        if (!sess.done && !sess.rescheduled) {
+                            missedSessionsCount++;
+                            sess.rescheduled = true; // Tandai agar tidak dihitung berkali-kali nanti
+                        }
+                    });
+                }
+            });
+
+            // Distribusikan backlog sesi yang tertinggal ke sisa hari di masa depan
+            if (missedSessionsCount > 0) {
+                let distributed = 0;
+                // Cari hari-hari mendatang yang bukan libur untuk disisipi sesi backlog
+                for (let day of studyPlan) {
+                    if (day.dateStr >= todayStr && !day.isRestDay && day.sessions.length < 4) {
+                        // Cari materi acak kemarin yang tertunda untuk diselipkan ke slot kosong terdekat
+                        day.sessions.push({
+                            id: `backlog-${Date.now()}-${distributed}`,
+                            timeStr: "Slot Fleksibel (Buffer)",
+                            subject: "📌 Cadangan Penyesuaian",
+                            topic: `Materi Re-schedule Tertunda Sebelumnya`,
+                            done: false,
+                            isBacklogBonus: true
+                        });
+                        distributed++;
+                        if (distributed >= missedSessionsCount) break;
+                    }
+                }
+                
+                // Render teks alert info penyesuaian otomatis di dashboard
+                document.getElementById('alert-backlog-text').innerText = `Ada ${missedSessionsCount} sesi belajar tertinggal pada hari sebelumnya. Sistem otomatis menjadwalkannya kembali ke slot kosong terdekat agar target kompetensi Anda tetap terpenuhi secara berkala.`;
+                document.getElementById('alert-backlog-container').classList.remove('hidden');
+                
+                // Tulis ulang ke localStorage hasil penyesuaian
+                localStorage.setItem('utbk_study_plan', JSON.stringify(studyPlan));
+            } else {
+                document.getElementById('alert-backlog-container').classList.add('hidden');
+            }
+        }
+
+        // ========================================================
+        // VI. DASHBOARD VIEWS RENDERER (UI/UX COMPONENT)
+        // ========================================================
+        function renderDashboard() {
+            if(!studyPlan || !userData) return;
+
+            const todayStr = new Date().toISOString().split('T')[0];
+            
+            // 1. CARDS RINGKASAN METRIKS UTAMA
+            // Hitung Mundur Hari
+            const diffTime = new Date(userData.examDate) - new Date();
+            const diffDays = Math.max(0, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
+            document.getElementById('dash-stat-days').innerText = `${diffDays} Hari`;
+
+            // Total Jam Efektif Terjadwal
+            let totalHours = 0;
+            let completedSessions = 0;
+            let totalSessionsCount = 0;
+            let activePhase = "Fase 1: Konsep Dasar";
+
+            studyPlan.forEach(d => {
+                if(!d.isRestDay) {
+                    totalSessionsCount += d.sessions.length;
+                    d.sessions.forEach(s => {
+                        totalHours++;
+                        if(s.done) completedSessions++;
+                    });
+                    if(d.dateStr === todayStr) {
+                        activePhase = d.phaseLabel || activePhase;
+                    }
+                }
+            });
+
+            document.getElementById('dash-stat-hours').innerText = `~${totalHours} Jam`;
+            document.getElementById('dash-stat-phase').innerText = activePhase;
+
+            // Progress Macro Lingkaran Ring
+            const globalProgressPercent = totalSessionsCount > 0 ? Math.round((completedSessions / totalSessionsCount) * 100) : 0;
+            document.getElementById('dash-stat-progress-txt').innerText = `${globalProgressPercent}%`;
+            // Set SVG stroke-dasharray
+            document.getElementById('dash-stat-progress-ring').setAttribute('stroke-dasharray', `${globalProgressPercent}, 100`);
+
+            // 2. HERO COMPONENT: FOKUS HARI INI
+            const todayData = studyPlan.find(d => d.dateStr === todayStr);
+            const todayContainer = document.getElementById('dash-today-sessions-list');
+            const todayDateStrLabel = document.getElementById('dash-today-date-str');
+            
+            // Format tanggal lokal humanis
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            todayDateStrLabel.innerText = new Date().toLocaleDateString('id-ID', options);
+
+            todayContainer.innerHTML = '';
+
+            if (todayData && todayData.sessions.length > 0) {
+                let allDoneToday = true;
+                
+                todayData.sessions.forEach(sess => {
+                    if(!sess.done) allDoneToday = false;
+
+                    const div = document.createElement('div');
+                    div.className = `p-4 flex items-center justify-between transition ${sess.done ? 'bg-slate-50 opacity-60' : 'bg-white hover:bg-slate-50/50'}`;
+                    div.innerHTML = `
+                        <div class="flex items-start gap-3.5 pr-2">
+                            <div class="pt-1">
+                                <input type="checkbox" id="chk-${sess.id}" ${sess.done ? 'checked' : ''} data-id="${sess.id}" class="session-checkbox w-5 h-5 text-emerald-600 border-slate-300 rounded focus:ring-emerald-500 cursor-pointer transition">
+                            </div>
+                            <div>
+                                <span class="inline-block text-[10px] font-bold px-2 py-0.5 rounded bg-blue-50 text-blue-600 mb-1">${sess.timeStr}</span>
+                                <h4 class="font-bold text-slate-900 text-sm ${sess.done ? 'line-through text-slate-400' : ''}">${sess.subject}</h4>
+                                <p class="text-xs text-slate-500 mt-0.5 ${sess.done ? 'line-through text-slate-400' : ''}">${sess.topic}</p>
+                            </div>
+                        </div>
+                        <span class="text-xs font-semibold ${sess.done ? 'text-emerald-600 bg-emerald-50' : 'text-slate-400 bg-slate-100'} px-2 py-1 rounded-md transition whitespace-nowrap">
+                            ${sess.done ? '✅ Selesai' : '⏳ Menunggu'}
+                        </span>
+                    `;
+                    todayContainer.appendChild(div);
+                });
+
+                if (allDoneToday) {
+                    document.getElementById('dash-today-completion-badge').classList.remove('hidden');
+                } else {
+                    document.getElementById('dash-today-completion-badge').classList.add('hidden');
+                }
+            } else {
+                todayContainer.innerHTML = `
+                    <div class="p-8 text-center text-slate-500 text-sm">
+                        🧘‍♂️ <strong>Hari Libur Terdeteksi!</strong> Tidak ada sesi belajar wajib hari ini. Gunakan waktu untuk istirahat total, refleksi diri, atau berkumpul dengan keluarga agar energi Anda kembali penuh besok pagi.
+                    </div>
+                `;
+                document.getElementById('dash-today-completion-badge').classList.add('hidden');
+            }
+
+            // Bind Event Listeners ke Checkbox yang baru dibuat
+            document.querySelectorAll('.session-checkbox').forEach(chk => {
+                chk.addEventListener('change', (e) => {
+                    const id = e.target.getAttribute('data-id');
+                    toggleSessionProgressState(id, e.target.checked);
+                });
+            });
+
+            // 3. TAB PREVIEW MINGGUAN (7 HARI KEDEPAN)
+            renderWeeklyTimeline(todayStr);
+
+            // 4. BAR CHART DISTRIBUSI PROGRESS (MURNI HTML/CSS)
+            renderBarChartProgress(studyPlan);
+
+            // 5. UPDATE WIDGET GAMIFIKASI STREAKS
+            calculateAndRenderGamification();
+        }
+
+        function toggleSessionProgressState(sessionId, isChecked) {
+            // Temukan sesi di master array data structure
+            studyPlan.forEach(day => {
+                day.sessions.forEach(sess => {
+                    if (sess.id === sessionId) {
+                        sess.done = isChecked;
+                    }
+                });
+            });
+
+            // Simpan perubahan ke storage & render ulang
+            localStorage.setItem('utbk_study_plan', JSON.stringify(studyPlan));
+            renderDashboard();
+        }
+
+        function renderWeeklyTimeline(todayStr) {
+            const weeklyContainer = document.getElementById('dash-weekly-list');
+            weeklyContainer.innerHTML = '';
+
+            // Filter 7 hari kedepan terhitung sejak hari ini untuk optimasi visual space
+            const upcomingDays = studyPlan.filter(d => d.dateStr >= todayStr).slice(0, 7);
+
+            if(upcomingDays.length === 0) {
+                weeklyContainer.innerHTML = `<p class="text-xs text-slate-400 text-center py-4">Tidak ada data minggu ini.</p>`;
+                return;
+            }
+
+            upcomingDays.forEach(day => {
+                const isToday = day.dateStr === todayStr;
+                
+                let icon = "⚪"; // Belum dilakukan
+                let borderClass = "border-slate-200";
+                let bgClass = "bg-white";
+
+                if (day.isRestDay) {
+                    icon = "🧘‍♂️";
+                    bgClass = "bg-slate-50/50";
+                } else {
+                    const totalSess = day.sessions.length;
+                    const doneSess = day.sessions.filter(s => s.done).length;
+                    
+                    if (totalSess > 0 && doneSess === totalSess) icon = "✅";
+                    else if (totalSess > 0 && doneSess > 0) icon = "🔵";
+                    else if (day.dateStr < todayStr && doneSess < totalSess) icon = "⚠️";
+                }
+
+                if (isToday) {
+                    borderClass = "border-blue-500 ring-1 ring-blue-500/30";
+                    bgClass = "bg-blue-50/20";
+                }
+
+                const dObj = new Date(day.dateStr);
+                const dayLabel = dObj.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short' });
+
+                // Ambil daftar rangkuman sub-mapel harian
+                let mapelBadgesHTML = "";
+                if(day.isRestDay) {
+                    mapelBadgesHTML = `<span class="text-xs text-slate-400 italic">Libur Mingguan Terjadwal</span>`;
+                } else {
+                    const mapelSet = new Set();
+                    day.sessions.forEach(s => mapelSet.add(s.subject));
+                    mapelSet.forEach(m => {
+                        mapelBadgesHTML += `<span class="inline-block text-[11px] bg-slate-100 border border-slate-200 px-2 py-0.5 rounded text-slate-700 font-medium">${m}</span> `;
+                    });
+                }
+
+                const item = document.createElement('div');
+                item.className = `p-3 border ${borderClass} ${bgClass} rounded-xl flex items-center justify-between gap-3 text-sm`;
+                item.innerHTML = `
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <span class="text-base flex-shrink-0">${icon}</span>
+                        <div class="overflow-hidden">
+                            <span class="block font-bold text-slate-900 text-xs">${dayLabel} ${isToday ? '(Hari Ini)':''}</span>
+                            <div class="flex flex-wrap gap-1 mt-1">${mapelBadgesHTML}</div>
+                        </div>
+                    </div>
+                `;
+                weeklyContainer.appendChild(item);
+            });
+        }
+
+        function renderBarChartProgress(plan) {
+            const chartContainer = document.getElementById('dash-chart-container');
+            chartContainer.innerHTML = '';
+
+            // Hitung akumulasi statistik agregat per mapel
+            const stats = {};
+            plan.forEach(day => {
+                if(!day.isRestDay) {
+                    day.sessions.forEach(s => {
+                        if (!stats[s.subject]) {
+                            stats[s.subject] = { target: 0, done: 0 };
+                        }
+                        stats[s.subject].target += 1;
+                        if (s.done) stats[s.subject].done += 1;
+                    });
+                }
+            });
+
+            const subjects = Object.keys(stats);
+            if(subjects.length === 0) {
+                chartContainer.innerHTML = `<p class="text-xs text-slate-400 text-center py-4">Data grafik belum tersedia.</p>`;
+                return;
+            }
+
+            subjects.forEach(sub => {
+                const data = stats[sub];
+                const pct = data.target > 0 ? (data.done / data.target) * 100 : 0;
+
+                const row = document.createElement('div');
+                row.className = "space-y-1.5";
+                row.innerHTML = `
+                    <div class="flex justify-between text-xs font-semibold text-slate-700">
+                        <span class="truncate max-w-[180px]">${sub}</span>
+                        <span>${data.done}/${data.target} Sesi (${Math.round(pct)}%)</span>
+                    </div>
+                    <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden relative border border-slate-200/60">
+                        <div class="bg-blue-600 h-full transition-all duration-500 rounded-full" style="width: ${Math.max(4, pct)}%"></div>
+                    </div>
+                `;
+                chartContainer.appendChild(row);
+            });
+        }
+
+        // ========================================================
+        // VII. GAMIFIKASI & REWARD LOGIC SYSTEM
+        // ========================================================
+        function calculateAndRenderGamification() {
+            if(!studyPlan) return;
+
+            const todayStr = new Date().toISOString().split('T')[0];
+            let consecutiveStreak = 0;
+            
+            // Urutkan kronologis hari dari awal rencana sampai HARI KEMARIN
+            const pastDays = studyPlan.filter(d => d.dateStr <= todayStr && !d.isRestDay);
+            
+            for (let i = pastDays.length - 1; i >= 0; i--) {
+                const day = pastDays[i];
+                const totalSess = day.sessions.length;
+                const doneSess = day.sessions.filter(s => s.done).length;
+                
+                if (totalSess > 0 && doneSess === totalSess) {
+                    consecutiveStreak++;
+                } else {
+                    // Jika hari ini belum selesai semua jangan putus streak dulu, beri toleransi grace period khusus hari ini saja
+                    if(day.dateStr === todayStr) continue; 
+                    break; // Putus beruntun di luar hari ini
+                }
+            }
+
+            // Update DOM Counter
+            document.getElementById('streak-count-val').innerText = consecutiveStreak;
+
+            // Hitung Pencapaian Medali/Badges Logis
+            const badgeContainer = document.getElementById('badge-mini-display');
+            badgeContainer.innerHTML = '';
+
+            const badgesEarned = [];
+            if (consecutiveStreak >= 7) badgesEarned.push({ icon: "🥉", name: "Minggu Pertama", desc: "7 Hari Streak Berturut-turut!" });
+            if (consecutiveStreak >= 30) badgesEarned.push({ icon: "🥈", name: "Konsisten Perkasa", desc: "30 Hari Streak Mantap!" });
+            
+            // Cek jika seluruh Sesi Fase 1 Selesai Lengkap
+            let phase1Total = 0;
+            let phase1Done = 0;
+            studyPlan.forEach(d => {
+                if(!d.isRestDay && d.phaseLabel && d.phaseLabel.includes("Fase 1")) {
+                    d.sessions.forEach(s => {
+                        phase1Total++;
+                        if(s.done) phase1Done++;
+                    });
+                }
+            });
+            if(phase1Total > 0 && phase1Done === phase1Total) {
+                badgesEarned.push({ icon: "🥇", name: "Fase 1 Master", desc: "Selesai 100% Fondasi Konsep Dasar!" });
+            }
+
+            // Render Lencana Mini di Navigasi Atas
+            if (badgesEarned.length > 0) {
+                badgesEarned.forEach(b => {
+                    const span = document.createElement('span');
+                    span.title = `${b.name}: ${b.desc}`;
+                    span.className = "cursor-help transform hover:scale-125 transition-transform duration-200";
+                    span.innerText = b.icon;
+                    badgeContainer.appendChild(span);
+                });
+            } else {
+                badgeContainer.innerHTML = `<span class="text-xs text-slate-300 italic font-normal">Belum ada badge</span>`;
+            }
+        }
+
+        // ========================================================
+        // VIII. EXPORT FUNCTIONALITY & SIMULATION DATA PERSISTENCE
+        // ========================================================
+        document.getElementById('btn-export-schedule').addEventListener('click', () => {
+            if(!studyPlan || !userData) return;
+
+            let textOutput = `========================================================\n`;
+            textOutput += `   RENCANA BELAJAR OTOMATIS PERSAPAN UTBK/TKA - SIMULASI EXPORT PDF\n`;
+            textOutput += `========================================================\n\n`;
+            textOutput += `Target Jurusan/Kampus: ${userData.dreamMajor}\n`;
+            textOutput += `Target Nilai Akhir: ${userData.targetScore}\n`;
+            textOutput += `Tanggal Pertempuran Ujian: ${userData.examDate}\n`;
+            textOutput += `Rumpun Pilihan: UTBK ${userData.examGroup.toUpperCase()}\n`;
+            textOutput += `--------------------------------------------------------\n\n`;
+
+            studyPlan.forEach(day => {
+                textOutput += `📅 TANGGAL: ${day.dateStr} (${day.isRestDay ? 'HARI LIBUR' : day.phaseLabel})\n`;
+                if(day.isRestDay) {
+                    textOutput += `   [🧘‍♂️ Rest Day] Gunakan waktu jeda untuk recovery energi pikiran.\n`;
+                } else {
+                    day.sessions.forEach(s => {
+                        textOutput += `   [${s.done ? '✓ SELESAI' : ' '}] ${s.timeStr} | ${s.subject} -> ${s.topic}\n`;
+                    });
+                }
+                textOutput += `\n`;
+            });
+
+            // Trigger Browser Download File TXT sebagai representasi konkrit simplifikasi PDF Client-side murni
+            const blob = new Blob([textOutput], { type: "text/plain;charset=utf-8" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = `Rencana_Belajar_UTBK_${userData.examGroup}.txt`;
+            link.click();
+        });
+
+        // Trigger Menu Buka Kembali Wizard Menggunakan Data Preset Lama (Edit Data)
+        document.getElementById('btn-edit-data').addEventListener('click', () => {
+            if(!userData) return;
+            
+            // Set preset fields form onboarding wizard
+            inputExamDate.value = userData.examDate;
+            document.querySelector(`input[name="exam-group"][value="${userData.examGroup}"]`).checked = true;
+            document.getElementById('input-time-weekday').value = userData.hoursWeekday;
+            document.getElementById('input-time-weekend').value = userData.hoursWeekend;
+            document.getElementById('input-rest-day').checked = userData.excludeSunday;
+            document.getElementById('input-target-score').value = userData.targetScore;
+            document.getElementById('input-dream-major').value = userData.dreamMajor;
+
+            // Trigger Realtime Labels text range
+            document.getElementById('val-weekday').innerText = `${userData.hoursWeekday} Jam / hari`;
+            document.getElementById('val-weekend').innerText = `${userData.hoursWeekend} Jam / hari`;
+
+            // Pindah visual state tampilan ke langkah pertama wizard
+            currentStep = 1;
+            showStep(currentStep);
+            
+            wizardContainer.classList.remove('hidden');
+            dashboardContainer.classList.add('hidden');
+            document.getElementById('header-gamification').classList.add('hidden');
+        });
+
+        // Reset Total Konfigurasi Aplikasi Cleansing Storage
+        document.getElementById('btn-reset-all').addEventListener('click', () => {
+            if(confirm("Apakah Anda yakin ingin menghapus seluruh data rencana belajar, riwayat progress harian, beserta streak yang sudah berjalan? Tindakan ini permanen.")) {
+                localStorage.clear();
+                userData = null;
+                studyPlan = null;
+                initApp();
+            }
+        });
+
+        // Bootstrap Launcher on Page Ready State
+        window.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
